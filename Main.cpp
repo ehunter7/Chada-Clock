@@ -17,6 +17,7 @@ using namespace std;
 void HandleUserInput(int userInput, int& hours, int& minutes, int& seconds);
 void DisplayMenu();
 void SetTime(int& hours, int& minutes, int& seconds);
+void DisplayTime(const int hours, const int minutes, const int seconds, const int type);
 void DisplayClock(const int hours, const int minutes, const int seconds);
 
 int main() {
@@ -195,7 +196,8 @@ void DisplayMenu() {
 		}
 		//Otherwise add ending menu options
 		else {
-			cout << asterisk << " " << i + 1 << " - Update Time" << setfill(' ') << setw(20) << asterisk << endl;
+
+			cout << asterisk << " " << i + 1 << " - Update to current Time" << setfill(' ') << setw(9) << asterisk << endl;
 			cout << asterisk << " " << i + 2 << " - Exit" << setfill(' ') << setw(27) << asterisk << endl;
 		}
 	}
@@ -260,15 +262,7 @@ void DisplayClock(const int hours, const int minutes, const int seconds) {
 	char space = ' ';
 	char colon = ':';
 
-	string amPm;
 
-	//Used to determine if its am or pm.
-	if (hours < 12 || hours == 24) {
-		amPm = " AM";
-	}
-	else {
-		amPm = " PM";
-	}
 
 	//Top border of clock
 	cout << setfill(asterisk) << setw(26) << asterisk << space << setw(26) << asterisk <<  endl;
@@ -282,18 +276,46 @@ void DisplayClock(const int hours, const int minutes, const int seconds) {
 	cout << asterisk << setfill(space) << setw(6) << space;
 
 	//12 hour time
-	cout << setfill('0') << setw(2) << (hours > 12 ? hours - 12 : hours) << colon << setfill('0')
-		<< setw(2) << minutes << colon << setfill('0') << setw(2) << seconds << amPm;
+	//cout << setfill('0') << setw(2) << (hours > 12 ? hours - 12 : hours) << colon << setfill('0')
+		//<< setw(2) << minutes << colon << setfill('0') << setw(2) << seconds << amPm;
+	DisplayTime(hours, minutes, seconds, 12);
+
 
 	//sets space inbetween times
 	cout << setw(8) << setfill(space) << asterisk << space << asterisk << setw(8) << setfill(space) << space;
 
 	//24 hour time
-	cout << setfill('0') << setw(2) << hours << colon << setfill('0') << setw(2) << minutes << colon <<
-		setfill('0') << setw(2) << seconds << setfill(space) << setw(9) << asterisk << endl;
-
+	/**cout << setfill('0') << setw(2) << hours << colon << setfill('0') << setw(2) << minutes << colon <<
+		setfill('0') << setw(2) << seconds << setfill(space) << setw(9) << asterisk << endl;*/
+	DisplayTime(hours, minutes, seconds, 24);
 	//bottom border of clock
 	cout << setfill(asterisk) << setw(26) << asterisk << space << setw(26) << asterisk << endl;
+}
+
+void DisplayTime(const int hours, const int minutes, const int seconds, const int type = 12) {
+
+	char colon = ':';
+
+	string amPm;
+	int hour;
+
+	//Used to determine if its am or pm.
+	if (hours < 12 || hours == 24) {
+		amPm = " AM";
+	}
+	else {
+		amPm = " PM";
+	}
+
+	if (type == 12) {
+		hour = (hours > 12 ? hours - 12 : hours);
+	}
+	else {
+		hour = hours;
+	}
+
+	cout << setfill('0') << setw(2) <<  hour << colon << setfill('0')
+		<< setw(2) << minutes << colon << setfill('0') << setw(2) << seconds << amPm;
 }
 
 
